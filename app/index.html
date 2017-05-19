@@ -10,6 +10,7 @@
     <script src="bower_components/angular-route/angular-route.min.js"></script>
     <script src="bower_components/angular-animate/angular-animate.min.js"></script>
     <script src="bower_components/angular-sanitize/angular-sanitize.min.js"></script>
+    <script src="bower_components/angular-touch/angular-touch.min.js"></script>
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="bower_components/chart.js/dist/Chart.min.js"></script>
@@ -23,11 +24,13 @@
     <link href="css/header.css" rel="stylesheet">
     <link href="css/sidebar.css" rel="stylesheet">
     <link href="css/footer.css" rel="stylesheet">
+    <link href="css/home.css" rel="stylesheet">
+    <link href="css/login.css" rel="stylesheet">
 
     <script src="js/HeaderCtrl.js"></script>
     <script src="js/HomeCtrl.js"></script>
     <script src="js/BoardCtrl.js"></script>
-    <script src="js/PopupCtrl.js"></script>
+    <script src="js/popup/LoginCtrl.js"></script>
     <script src="app.js"></script>
 </head>
 <body>
@@ -35,7 +38,7 @@
 <div class="row">
     <div ng-include="'templates/header.html'"></div>
     <div ng-include="'templates/sidebar.html'"></div>
-    <div class="col-sm-9 container-fluid" ng-view></div>
+    <div class="col-sm-9 container-fluid crit-home-body" ng-view></div>
 </div>
 
 <div ng-include="'templates/footer.html'"></div>

@@ -1,20 +1,15 @@
 'use strict';
-angular.module('critical.controllers.headerCtrl', ['ngRoute', 'angularModalService'])
+angular.module('critical.controllers.headerCtrl', ['ngRoute', 'ngAnimate'])
     .controller('HeaderCtrl', HeaderCtrl);
 
-HeaderCtrl.$inject = ['$scope', 'ModalService'];
+HeaderCtrl.$inject = ['$scope', '$uibModal'];
 
-function HeaderCtrl($scope, ModalService) {
+function HeaderCtrl($scope, $uibModal) {
 
-    $scope.show = function() {
-        ModalService.showModal({
-            templateUrl: '../templates/popup/modal.html',
-            controller: "PopupCtrl"
-        }).then(function(modal) {
-            modal.element.modal();
-            modal.close.then(function(result) {
-                $scope.message = "You said " + result;
-            });
+    $scope.openLogin = function() {
+        $uibModal.open({
+            templateUrl: '../templates/popup/login.html',
+            controller :'LoginCtrl'
         });
-    };
+    }
 };

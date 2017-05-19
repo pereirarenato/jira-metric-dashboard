@@ -4,12 +4,13 @@ angular.module('critical', [
     'ngRoute',
     'ngSanitize',
     'chart.js',
+    'ngAnimate',
     'ui.bootstrap',
     'angularModalService',
     'critical.controllers.headerCtrl',
     'critical.controllers.homeCtrl',
     'critical.controllers.boardCtrl',
-    'critical.controllers.popupCtrl'
+    'critical.controllers.loginCtrl'
 ]).config(
     [
         '$locationProvider',
@@ -22,7 +23,7 @@ angular.module('critical', [
                 templateUrl: 'templates/home.html',
                 controller: 'HomeCtrl'
             }).when('/board/:slug', {
-                templateUrl: 'templates/ctrl/board.html',
+                templateUrl: 'templates/board.html',
                 controller: 'BoardCtrl'
             }).otherwise({redirectTo: '/home'});
         }

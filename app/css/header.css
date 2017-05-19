@@ -1,4 +1,7 @@
-.crit-logo {
+.crit-header-logo {
     height: 52px;
     margin-top: -16px;
+}
+.crit-header-login {
+    cursor: pointer;
 }
