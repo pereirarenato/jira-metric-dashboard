@@ -10,7 +10,10 @@ angular.module('critical', [
     'critical.controllers.headerCtrl',
     'critical.controllers.homeCtrl',
     'critical.controllers.boardCtrl',
-    'critical.controllers.loginCtrl'
+    'critical.controllers.loginCtrl',
+    'critical.controllers.messagesCtrl',
+    'critical.controllers.createCtrl',
+    'critical.services.metricService'
 ]).config(
     [
         '$locationProvider',
@@ -25,6 +28,9 @@ angular.module('critical', [
             }).when('/board/:slug', {
                 templateUrl: 'templates/board.html',
                 controller: 'BoardCtrl'
+            }).when('/cron/create', {
+                templateUrl: 'templates/cron/create-cron.html',
+                controller: 'CreateCronCtrl'
             }).otherwise({redirectTo: '/home'});
         }
     ]

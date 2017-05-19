@@ -26,14 +26,20 @@
     <link href="css/footer.css" rel="stylesheet">
     <link href="css/home.css" rel="stylesheet">
     <link href="css/login.css" rel="stylesheet">
+    <link href="css/board.css" rel="stylesheet">
 
-    <script src="js/HeaderCtrl.js"></script>
-    <script src="js/HomeCtrl.js"></script>
-    <script src="js/BoardCtrl.js"></script>
-    <script src="js/popup/LoginCtrl.js"></script>
+    <script src="js/headerCtrl.js"></script>
+    <script src="js/homeCtrl.js"></script>
+    <script src="js/boardCtrl.js"></script>
+    <script src="js/cron/createCronCtrl.js"></script>
+    <script src="js/popup/loginCtrl.js"></script>
+    <script src="js/popup/messagesCtrl.js"></script>
+
+    <script src="js/services/metricService.js"></script>
+
     <script src="app.js"></script>
 </head>
-<body>
+<body ng-controller="HomeCtrl">
 
 <div class="row">
     <div ng-include="'templates/header.html'"></div>

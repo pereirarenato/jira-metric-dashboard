@@ -5,17 +5,32 @@ angular.module('critical.controllers.boardCtrl', ['ngRoute'])
 BoardCtrl.$inject = ['$scope', '$routeParams', '$injector'];
 
 function BoardCtrl($scope, $routeParams, $injector) {
-    $scope.board = $routeParams.slug;
-    $scope.labels = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    $scope.series = ['Series A'];
-    $scope.data = [
-        [65, 59, 80, 81, 56, 55, 40, 65, 59, 80, 81, 56, 55, 40, 56, 55, 40, 56, 55, 40, 65, 59, 80, 65, 59, 80,
-            65, 59, 80, 81, 56, 55, 40, 65, 59, 80, 81, 56, 55, 40, 56, 55, 40, 56, 55, 40, 65, 59, 80, 65, 59, 80]
-    ];
+    var metricService = $injector.get('metricService');
+
+    $scope.cronKey = $routeParams.slug;
+
+    metricService.getCron($scope.cronKey).then(function (cron) {
+        $scope.labels = [];
+        $scope.data = [[]];
+        $scope.series = cron.description;
+
+        // Sort records by createdAt date
+        cron.records.sort(function (a, b) {
+            a = new Date(a.createdAt);
+            b = new Date(b.createdAt);
+            return a - b;
+        });
+
+        cron.records.forEach(function (c) {
+            $scope.labels.push(new Date(c.createdAt).toLocaleString());
+            $scope.data[0].push(c.size);
+        });
+    });
+
     $scope.onClick = function (points, evt) {
         console.log(points, evt);
     };
-    $scope.datasetOverride = [{ yAxisID: 'y-axis-1' }, { yAxisID: 'y-axis-2' }];
+    $scope.datasetOverride = [{yAxisID: 'y-axis-1'}];
     $scope.options = {
         scales: {
             yAxes: [
@@ -24,12 +39,6 @@ function BoardCtrl($scope, $routeParams, $injector) {
                     type: 'linear',
                     display: true,
                     position: 'left'
-                },
-                {
-                    id: 'y-axis-2',
-                    type: 'linear',
-                    display: true,
-                    position: 'right'
                 }
             ]
         }

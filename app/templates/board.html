@@ -1,8 +1,12 @@
 <div class="container-fluid">
     <div class="row content">
         <div class="col-sm-12">
-            <h4>Board {{board}}</h4>
-
+            <div>
+                <h4 class="col-xs-10 col-sm-5">Board {{series}}</h4>
+                <button class="btn btn-default crit-board-edit" type="button">
+                    <span class="glyphicon glyphicon-pencil"></span>
+                </button>
+            </div>
             <canvas id="line" class="chart chart-line" chart-data="data"
                     chart-labels="labels" chart-series="series" chart-options="options"
                     chart-dataset-override="datasetOverride" chart-click="onClick">

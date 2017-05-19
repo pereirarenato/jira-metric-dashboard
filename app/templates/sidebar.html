@@ -1,21 +1,27 @@
 <div class="col-sm-3 container-fluid">
     <div class="container-fluid">
         <div class="sidenav">
-            <h4>John's Blog</h4>
+            <h4>Renato's Crons</h4>
             <div class="input-group">
-                <input type="text" class="form-control" placeholder="Search Blog..">
-            <span class="input-group-btn">
-              <button class="btn btn-default" type="button">
-                <span class="glyphicon glyphicon-search"></span>
-              </button>
-            </span>
+                <input type="text" class="form-control" placeholder="Search Cron...">
+                <span class="input-group-btn">
+                  <button class="btn btn-default" type="button">
+                    <span class="glyphicon glyphicon-search"></span>
+                  </button>
+                  <button ng-click="createCron()" class="btn btn-default" type="button">
+                    <span class="glyphicon glyphicon-plus"></span>
+                  </button>
+                </span>
             </div>
             <br>
             <ul class="nav nav-pills nav-stacked">
                 <li class="active"><a href="#">Home</a></li>
-                <li><a href="#!/board/cron-tickets-closed-week">Closed issues week</a></li>
+                <li ng-repeat="cron in userCronList track by $index">
+                    <a ng-href={{getCronUrl(cron)}}>{{cron.description}}</a>
+                </li>
+                <!--li><a href="#!/board/cron-tickets-closed-week">Closed issues week</a></li>
                 <li><a href="#!/board/cron-tickets-opened-week">Opened issues week</a></li>
-                <li><a href="#!/board/cron-tickets-blocked-week">Blocked issues week</a></li>
+                <li><a href="#!/board/cron-tickets-blocked-week">Blocked issues week</a></li-->
             </ul>
         </div>
     </div>
