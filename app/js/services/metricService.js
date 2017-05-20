@@ -30,7 +30,7 @@ function MetricService($http, $q) {
                 deferred.resolve(response.data.crons);
             },
             function (response) {
-                deferred.reject(response);
+                deferred.reject(response.data.msg);
             });
         return deferred.promise;
     };
@@ -57,7 +57,7 @@ function MetricService($http, $q) {
                 deferred.resolve(response.data.cron);
             },
             function (response) {
-                deferred.reject(response);
+                deferred.reject(response.data.msg);
             });
         return deferred.promise;
     }
@@ -72,15 +72,16 @@ function MetricService($http, $q) {
             url: urlCreateCron,
             headers: {
                 'Content-Type': 'application/json'
-            }
+            },
+            data: cron
         };
 
-        $http(req, cron).then(
+        $http(req).then(
             function (response) {
                 deferred.resolve(response.data.cron);
             },
             function (response) {
-                deferred.reject(response);
+                deferred.reject(response.data.msg);
             });
         return deferred.promise;
     }

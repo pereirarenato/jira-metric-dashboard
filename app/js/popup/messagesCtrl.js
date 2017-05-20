@@ -1,15 +1,26 @@
 'use strict';
 angular.module('critical.controllers.messagesCtrl', ['ngRoute', 'ngAnimate'])
-    .controller('LoginCtrl', LoginCtrl);
+    .controller('MessagesCtrl', MessagesCtrl);
 
-LoginCtrl.$inject = ['$scope', '$uibModalInstance'];
+MessagesCtrl.$inject = ['$scope', '$uibModalInstance', '$routeParams'];
 
-function LoginCtrl($scope, $uibModalInstance) {
+function MessagesCtrl($scope, $uibModalInstance, $routeParams) {
 
-    $scope.message;
+    $scope.message= $scope.$resolve.message;
+    $scope.type= $scope.$resolve.type;
     
-    $scope.cancelModal = function(){
-        $uibModalInstance.dismiss('close');
+    $scope.getClassMessage = function(){
+        var classMessage = 'modal-title alert ';
+        if ($scope.type === 'success') {
+            classMessage += 'alert-success';
+        } else if ($scope.type === 'danger') {
+            classMessage += 'alert-danger';
+        } else if ($scope.type === 'info') {
+            classMessage += 'alert-info';
+        } else if ($scope.type === 'warning') {
+            classMessage += 'alert-warning';
+        }
+        return classMessage;
     }
 
     $scope.ok = function(){

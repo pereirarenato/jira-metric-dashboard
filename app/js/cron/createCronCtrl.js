@@ -1,12 +1,23 @@
 'use strict';
-angular.module('critical.controllers.createCtrl', ['ngRoute'])
+angular.module('critical.controllers.createCtrl', ['ngRoute', 'ngAnimate'])
     .controller('CreateCronCtrl', CreateCronCtrl);
 
-CreateCronCtrl.$inject = ['$scope', '$routeParams', '$injector'];
+CreateCronCtrl.$inject = ['$scope', '$uibModal', '$injector'];
 
-function CreateCronCtrl($scope, $routeParams, $injector) {
+/**
+ * Create Cron Controller
+ * @param $scope
+ * @param $uibModal
+ * @param $injector
+ * @constructor
+ */
+function CreateCronCtrl($scope, $uibModal, $injector) {
     var metricService = $injector.get('metricService');
 
+    /**
+     * Cron object
+     * @type {{key: string, description: string, cron: string, jiraJQL: string}}
+     */
     $scope.cron = {
         key: '',
         description: '',
@@ -14,15 +25,34 @@ function CreateCronCtrl($scope, $routeParams, $injector) {
         jiraJQL: ''
     };
 
+    /**
+     * Submit all form
+     */
     $scope.submit = function() {
         metricService.createCron($scope.cron).then(function (result) {
-            $scope.openLogin = function() {
-                $uibModal.open({
-                    templateUrl: '../templates/popup/login.html',
-                    controller :'LoginCtrl',
-                    message: result.cron.message
-                });
+            showMessagePopup('Cron ' + result.key + ' created!!!', 'success');
+        }, function (reject) {
+            showMessagePopup(reject, 'danger');
+        });
+    }
+
+    /**
+     * Show Popup message
+     * @param message
+     * @param messageType
+     */
+    var showMessagePopup = function(message, messageType) {
+        $uibModal.open({
+            templateUrl: '../templates/popup/messages.html',
+            controller :'MessagesCtrl',
+            resolve: {
+                message: function() {
+                    return message
+                },
+                type: function () {
+                    return messageType
+                }
             }
-        })
+        });
     }
 };
