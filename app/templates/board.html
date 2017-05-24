@@ -2,8 +2,13 @@
     <div class="row content">
         <div class="col-sm-12">
             <div>
-                <h4 class="col-xs-10 col-sm-5">Board {{series}}</h4>
-                <button class="btn btn-default crit-board-edit" type="button">
+                <h4 class="col-xs-10 col-sm-8">Board {{series}}</h4>
+                <button class="btn btn-default crit-board-button" type="button"
+                        ng-click="deleteCron()">
+                    <span class="glyphicon glyphicon-trash"></span>
+                </button>
+                <button class="btn btn-default crit-board-button" type="button"
+                        ng-click="editCron()">
                     <span class="glyphicon glyphicon-pencil"></span>
                 </button>
             </div>

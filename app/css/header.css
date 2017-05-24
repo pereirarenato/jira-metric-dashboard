@@ -5,3 +5,12 @@
 .crit-header-login {
     cursor: pointer;
 }
+.crit-header-logout {
+    cursor: pointer;
+    margin-top: -10px;
+    margin-bottom: -10px;
+}
+.crit-header-user {
+    color: #9d9d9d;
+    margin-left: 30px;
+}

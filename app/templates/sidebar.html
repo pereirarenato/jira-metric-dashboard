@@ -16,8 +16,8 @@
             <br>
             <ul class="nav nav-pills nav-stacked">
                 <li class="active"><a href="#">Home</a></li>
-                <li ng-repeat="cron in userCronList track by $index">
-                    <a ng-href={{getCronUrl(cron)}}>{{cron.description}}</a>
+                <li ng-repeat="cronInstance in userCronList track by $index">
+                    <a ng-href={{getCronUrl(cronInstance.cron)}}>{{cronInstance.cron.description}}</a>
                 </li>
                 <!--li><a href="#!/board/cron-tickets-closed-week">Closed issues week</a></li>
                 <li><a href="#!/board/cron-tickets-opened-week">Opened issues week</a></li>

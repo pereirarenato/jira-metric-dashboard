@@ -5,7 +5,9 @@ angular.module('critical', [
     'ngSanitize',
     'chart.js',
     'ngAnimate',
+    'ngCookies',
     'ui.bootstrap',
+    'PubSub',
     'angularModalService',
     'critical.controllers.headerCtrl',
     'critical.controllers.homeCtrl',
@@ -13,6 +15,8 @@ angular.module('critical', [
     'critical.controllers.loginCtrl',
     'critical.controllers.messagesCtrl',
     'critical.controllers.createCtrl',
+    'critical.controllers.editCtrl',
+    'critical.controllers.deleteCtrl',
     'critical.services.metricService'
 ]).config(
     [
@@ -25,12 +29,15 @@ angular.module('critical', [
             $routeProvider.when('/home', {
                 templateUrl: 'templates/home.html',
                 controller: 'HomeCtrl'
-            }).when('/board/:slug', {
+            }).when('/board/:cronKey', {
                 templateUrl: 'templates/board.html',
                 controller: 'BoardCtrl'
             }).when('/cron/create', {
                 templateUrl: 'templates/cron/create-cron.html',
                 controller: 'CreateCronCtrl'
+            }).when('/cron/edit/:cronKey', {
+                templateUrl: 'templates/cron/edit-cron.html',
+                controller: 'EditCronCtrl'
             }).otherwise({redirectTo: '/home'});
         }
     ]

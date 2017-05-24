@@ -16,8 +16,13 @@
                     <li><a href="#">Projects</a></li>
                     <li><a href="#">Contact</a></li>
                 </ul-->
-                <ul class="nav navbar-nav navbar-right">
+                <ul class="nav navbar-nav navbar-right" ng-if="!logedIn">
                     <li><a class="crit-header-login" ng-click="openLogin()"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right" ng-if="logedIn">
+                    <li><a class="crit-header-logout" ng-click="logout()"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+                    <br>
+                    <li class="crit-header-user">{{username}}</li>
                 </ul>
             </div>
         </div>
