@@ -30,13 +30,37 @@ function MetricService($http, $q) {
                 deferred.reject(response);
             });
         return deferred.promise;
+    };
+
+    function logout(session) {
+        var deferred = $q.defer();
+
+        var urlCreateCron = metricSystemHost + '/logout';
+        var req;
+        req = {
+            method: 'GET',
+            url: urlCreateCron,
+            headers: {
+                'Content-Type': 'application/json',
+                'session': session
+            }
+        };
+
+        $http(req).then(
+            function (response) {
+                deferred.resolve(response);
+            },
+            function (response) {
+                deferred.reject(response);
+            });
+        return deferred.promise;
     }
 
     /**
      * Get all user Crons
      * @param userName
      */
-    function getAllUserCrons(userName) {
+    function getAllUserCrons(session) {
         var deferred = $q.defer();
 
         var urlGetAllUserCrons = metricSystemHost + '/all-crons';
@@ -45,10 +69,8 @@ function MetricService($http, $q) {
             method: 'GET',
             url: urlGetAllUserCrons,
             headers: {
-                'Content-Type': 'application/json'
-            },
-            data: {
-                username: userName
+                'Content-Type': 'application/json',
+                'session': session
             }
         };
 
@@ -170,6 +192,7 @@ function MetricService($http, $q) {
 
     return {
         login: login,
+        logout: logout,
         getAllUserCrons: getAllUserCrons,
         getCron: getCron,
         createCron: createCron,

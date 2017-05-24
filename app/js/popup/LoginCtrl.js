@@ -29,7 +29,7 @@ function LoginCtrl($scope, $uibModalInstance, $injector, $cookies, PubSub, $time
 
                 PubSub.publish('login-success', {
                     username: $scope.username,
-                    sessionId: $scope.sessionId
+                    session: $scope.sessionId
                 });
 
                 $uibModalInstance.close('save');

@@ -2,9 +2,11 @@
 angular.module('critical.controllers.headerCtrl', ['ngRoute', 'ngAnimate', 'PubSub'])
     .controller('HeaderCtrl', HeaderCtrl);
 
-HeaderCtrl.$inject = ['$scope', '$uibModal', 'PubSub', '$cookies', '$location'];
+HeaderCtrl.$inject = ['$scope', '$uibModal', 'PubSub', '$cookies', '$location', '$injector'];
 
-function HeaderCtrl($scope, $uibModal, PubSub, $cookies, $location) {
+function HeaderCtrl($scope, $uibModal, PubSub, $cookies, $location, $injector) {
+    var metricService = $injector.get('metricService');
+
     $scope.username = $cookies.get('metricUsername');
     $scope.sessionId = $cookies.get('metricSessionId');
     $scope.logedIn = !($scope.sessionId == null);
@@ -17,12 +19,17 @@ function HeaderCtrl($scope, $uibModal, PubSub, $cookies, $location) {
     };
 
     $scope.logout = function() {
-        $cookies.remove('metricUsername');
-        $cookies.remove('metricSessionId');
-        $scope.username = undefined;
-        $scope.sessionId = undefined;
-        $scope.logedIn = false;
-        $location.path('#!/home');
+        var session = $cookies.get('metricSessionId')
+        metricService.logout(session).then(function (result) {
+            $cookies.remove('metricUsername');
+            $cookies.remove('metricSessionId');
+            $scope.username = undefined;
+            $scope.sessionId = undefined;
+            $scope.logedIn = false;
+            $location.path('#!/home');
+
+            PubSub.publish('logout-success');
+        });
     };
 
     PubSub.subscribe('login-success', function (data) {
