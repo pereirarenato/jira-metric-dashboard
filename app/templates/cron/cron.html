@@ -2,23 +2,39 @@
     <div class="form-group"  ng-init="setCronForm(cronForm)">
         <label for="inputCronName">Name</label>
         <input required ng-model="cron.description" type="text" class="form-control"
-               id="inputCronName" aria-describedby="cronName" placeholder="Enter Cron Name">
+               id="inputCronName" aria-describedby="cronName" placeholder="Ex. Open tickets in PROCIMP">
         <small id="cronName" class="form-text text-muted">Cron name</small>
     </div>
     <div class="form-group">
         <label for="inputCronKey">Key</label>
-        <input required ng-model="cron.key" type="text" class="form-control" id="inputCronKey" aria-describedby="cronKey" placeholder="Enter Cron Key">
+        <input required ng-model="cron.key" type="text" class="form-control" id="inputCronKey" aria-describedby="cronKey" placeholder="Ex. cron_open_tickets_PROCIMP">
         <small id="cronKey" class="form-text text-muted">Cron key</small>
     </div>
     <div class="form-group">
+        <label for="inputCronKind">Cron Kind</label>
+        <select class="form-control" id="inputCronKind" ng-options="kind for kind in kindOptions" ng-model="cron.kind"></select>
+        <small id="cronKind" class="form-text text-muted">Cron kind</small>
+    </div>
+    <div class="form-group" ng-if="cron.kind === 'AVERAGE'">
+        <label for="inputCron">Fields</label>
+        <input ng-model="cron.fields" type="text" class="form-control" id="inputFields" aria-describedby="cronFields" placeholder="Ex. created,resolutiondate">
+        <small id="cronFields" class="form-text text-muted">Fields separeted by comma</small>
+    </div>
+    <div class="form-group">
         <label for="inputCron">Cron</label>
-        <input ng-model="cron.cron" type="text" class="form-control" id="inputCron" aria-describedby="cron" placeholder="Enter Cron">
+        <input ng-model="cron.cron" type="text" class="form-control" id="inputCron" aria-describedby="cron" placeholder="Ex. * * * * *">
         <small id="cron" class="form-text text-muted">Cron Period String</small>
     </div>
     <div class="form-group">
         <label for="inputJiraJQL">JIRA JQL</label>
-        <input ng-model="cron.jiraJQL" type="text" class="form-control" id="inputJiraJQL" aria-describedby="jiraJQL" placeholder="Enter JIRA JQL">
+        <input ng-model="cron.jiraJQL" type="text" class="form-control" id="inputJiraJQL" aria-describedby="jiraJQL" placeholder="Ex. project = 'Process Improvement' and status != closed">
         <small id="jiraJQL" class="form-text text-muted">JIRA JQL</small>
+    </div>
+    <div class="form-check">
+        <label class="form-check-label">
+            <input ng-model="cron.visibility" type="checkbox" class="form-check-input" id="inputCronVisibility" aria-describedby="cronVisibility">
+            Public cron?
+        </label>
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>

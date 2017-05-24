@@ -14,6 +14,7 @@ EditCronCtrl.$inject = ['$scope', '$routeParams', '$uibModal', '$injector', 'Pub
 function EditCronCtrl($scope, $routeParams, $uibModal, $injector, PubSub) {
     var metricService = $injector.get('metricService');
 
+    $scope.kindOptions = ['COUNT', 'AVERAGE'];
     $scope.cron = {
         key: $routeParams.cronKey
     };
@@ -27,6 +28,11 @@ function EditCronCtrl($scope, $routeParams, $uibModal, $injector, PubSub) {
      * Submit all cronForm
      */
     $scope.submit = function() {
+        if ($scope.cron.kind === 'AVERAGE') {
+            $scope.cron.fields = $scope.cron.fields.split(',');
+        } else {
+            delete $scope.cron.fields;
+        }
         metricService.editCron($scope.cron).then(function (result) {
             showMessagePopup('Cron ' + result.key + ' created!!!', 'success');
         }, function (reject) {
