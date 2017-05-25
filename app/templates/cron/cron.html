@@ -16,9 +16,16 @@
         <small id="cronKind" class="form-text text-muted">Cron kind</small>
     </div>
     <div class="form-group" ng-if="cron.kind === 'AVERAGE'">
-        <label for="inputCron">Fields</label>
-        <input ng-model="cron.fields" type="text" class="form-control" id="inputFields" aria-describedby="cronFields" placeholder="Ex. created,resolutiondate">
-        <small id="cronFields" class="form-text text-muted">Fields separeted by comma</small>
+        <label for="inputCronFields">Fields</label>
+        <div class="crit-cron-fields-align">
+            <select class="form-control" id="inputCronFields" ng-options="field for field in fieldOptions" ng-change="addField(selectedField)" ng-model="selectedField"></select>
+            <span class="input-group-btn crit-cron-del">
+                  <button class="btn btn-default" type="button" ng-click="clearFields()">
+                    <span class="glyphicon glyphicon-remove"></span>
+                  </button>
+            </span>
+        </div>
+        <small id="cronFields" class="form-text text-muted">Fields separeted by comma [{{cron.fields.toString()}}]</small>
     </div>
     <div class="form-group">
         <label for="inputCron">Cron</label>

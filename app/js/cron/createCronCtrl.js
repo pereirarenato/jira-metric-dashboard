@@ -16,6 +16,8 @@ function CreateCronCtrl($scope, $uibModal, $injector, $cookies) {
 
     $scope.username = $cookies.get('metricUsername');
     $scope.kindOptions = ['COUNT', 'AVERAGE'];
+    $scope.fieldOptions = ['created', 'resolutiondate'];
+    $scope.selectedField;
     
     /**
      * Cron object
@@ -24,6 +26,7 @@ function CreateCronCtrl($scope, $uibModal, $injector, $cookies) {
     $scope.cron = {
         key: '',
         kind: 'COUNT', // default
+        fields: [],
         visibility: false,
         username: $scope.username,
         description: '',
@@ -31,17 +34,23 @@ function CreateCronCtrl($scope, $uibModal, $injector, $cookies) {
         jiraJQL: ''
     };
 
+    $scope.addField = function(field) {
+        $scope.cron.fields.push(field)
+    };
+
+    $scope.clearFields = function() {
+        $scope.cron.fields = [];
+    };
+
     /**
      * Submit all form
      */
     $scope.submit = function() {
-        if ($scope.cron.kind === 'AVERAGE') {
-            $scope.cron.fields = $scope.cron.fields.split(',');
-        } else {
+        if (!$scope.cron.kind === 'AVERAGE') {
             delete $scope.cron.fields;
         }
         metricService.createCron($scope.cron).then(function (result) {
-            showMessagePopup('Cron ' + result.key + ' created!!!', 'success');
+            showMessagePopup('Cron ' + $scope.cron.key + ' created!!!', 'success');
         }, function (reject) {
             showMessagePopup(reject, 'danger');
         });

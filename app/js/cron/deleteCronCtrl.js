@@ -20,7 +20,7 @@ function DeleteCronCtrl($scope, $uibModalInstance, $uibModal, $injector, $locati
         metricService.deleteCron($scope.cron.key).then(function (result) {
             $uibModalInstance.close('save');
             $location.path('#!/home');
-            showMessagePopup('Cron ' + result.key + ' deleted!!!', 'success');
+            showMessagePopup('Cron ' + $scope.cron.key + ' deleted!!!', 'success');
         }, function (reject) {
             $uibModalInstance.close();
             showMessagePopup(reject, 'danger');
