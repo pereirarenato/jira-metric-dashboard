@@ -1,8 +1,8 @@
 'use strict';
-angular.module('critical.controllers.deleteCtrl', ['ngRoute', 'ngAnimate'])
+angular.module('critical.controllers.deleteCtrl', ['ngRoute', 'ngAnimate', 'PubSub'])
     .controller('DeleteCronCtrl', DeleteCronCtrl);
 
-DeleteCronCtrl.$inject = ['$scope', '$uibModalInstance', '$uibModal', '$injector', '$location'];
+DeleteCronCtrl.$inject = ['$scope', '$uibModalInstance', '$uibModal', '$injector', '$location', 'PubSub'];
 
 /**
  * Delete Cron Controller
@@ -11,7 +11,7 @@ DeleteCronCtrl.$inject = ['$scope', '$uibModalInstance', '$uibModal', '$injector
  * @param $injector
  * @constructor
  */
-function DeleteCronCtrl($scope, $uibModalInstance, $uibModal, $injector, $location) {
+function DeleteCronCtrl($scope, $uibModalInstance, $uibModal, $injector, $location, PubSub) {
     var metricService = $injector.get('metricService');
 
     $scope.cron = $scope.$resolve.cron;
@@ -21,6 +21,7 @@ function DeleteCronCtrl($scope, $uibModalInstance, $uibModal, $injector, $locati
             $uibModalInstance.close('save');
             $location.path('#!/home');
             showMessagePopup('Cron ' + $scope.cron.key + ' deleted!!!', 'success');
+            PubSub.publish('delete-cron-success');
         }, function (reject) {
             $uibModalInstance.close();
             showMessagePopup(reject, 'danger');

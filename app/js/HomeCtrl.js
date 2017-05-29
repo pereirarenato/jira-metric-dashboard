@@ -28,6 +28,18 @@ function HomeCtrl($scope, $location, $injector, PubSub, $cookies) {
         loadAllCrons();
     });
 
+    PubSub.subscribe('create-cron-success', function () {
+        loadAllCrons($scope.session);
+    });
+
+    PubSub.subscribe('edit-cron-success', function () {
+        loadAllCrons($scope.session);
+    });
+
+    PubSub.subscribe('delete-cron-success', function () {
+        loadAllCrons($scope.session);
+    });
+
     var loadAllCrons = function(session) {
         metricService.getAllUserCrons(session).then(function (crons) {
             $scope.userCronList = crons;

@@ -47,7 +47,6 @@ function BoardCtrl($scope, $routeParams, $location, $injector, $uibModal) {
             resolve: {
                 cron: function () {
                     return $scope.cron;
-                        message
                 }
             }
         });

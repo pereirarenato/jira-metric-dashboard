@@ -14,8 +14,7 @@ angular.module('critical', [
     'critical.controllers.boardCtrl',
     'critical.controllers.loginCtrl',
     'critical.controllers.messagesCtrl',
-    'critical.controllers.createCtrl',
-    'critical.controllers.editCtrl',
+    'critical.controllers.cronCtrl',
     'critical.controllers.deleteCtrl',
     'critical.services.metricService'
 ]).config(
@@ -34,10 +33,12 @@ angular.module('critical', [
                 controller: 'BoardCtrl'
             }).when('/cron/create', {
                 templateUrl: 'templates/cron/create-cron.html',
-                controller: 'CreateCronCtrl'
+                controller: 'CronCtrl',
+                action: 'CREATE'
             }).when('/cron/edit/:cronKey', {
                 templateUrl: 'templates/cron/edit-cron.html',
-                controller: 'EditCronCtrl'
+                controller: 'CronCtrl',
+                action: 'EDIT'
             }).otherwise({redirectTo: '/home'});
         }
     ]
