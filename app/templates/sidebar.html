@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="sidenav">
             <h4 ng-if="username">{{username}}'s Crons</h4>
-            <h4>{{username}} Crons</h4>
+            <h4 ng-if="!username">Crons</h4>
             <div class="input-group">
                 <input type="text" class="form-control" placeholder="Search Cron...">
                 <span class="input-group-btn">
