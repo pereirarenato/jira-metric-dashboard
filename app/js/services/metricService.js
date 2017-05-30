@@ -54,7 +54,33 @@ function MetricService($http, $q) {
                 deferred.reject(response);
             });
         return deferred.promise;
-    }
+    };
+
+    /**
+     * Get all Cron Fields
+     */
+    function getAllCronFields() {
+        var deferred = $q.defer();
+
+        var urlGetAllCronFields = metricSystemHost + '/all-cron-fields';
+        var req;
+        req = {
+            method: 'GET',
+            url: urlGetAllCronFields,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
+
+        $http(req).then(
+            function (response) {
+                deferred.resolve(response.data);
+            },
+            function (response) {
+                deferred.reject(response.data.msg);
+            });
+        return deferred.promise;
+    };
 
     /**
      * Get all user Crons
@@ -193,6 +219,7 @@ function MetricService($http, $q) {
     return {
         login: login,
         logout: logout,
+        getAllCronFields: getAllCronFields,
         getAllUserCrons: getAllUserCrons,
         getCron: getCron,
         createCron: createCron,

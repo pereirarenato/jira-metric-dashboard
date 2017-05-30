@@ -1,5 +1,12 @@
 <div class="container-fluid">
     <div class="row content">
+        <div class="crit-board-buttons" >
+            <label>During last</label>
+            <select class="form-control" ng-options="during for during in duringOptions" ng-model="duringSelected" ng-change="changeScale(scaleSelected, duringSelected)"></select>
+            <label ng-if="cron.kind === 'AVERAGE'">Time scale</label>
+            <select ng-if="cron.kind === 'AVERAGE'" class="form-control" ng-options="scale for scale in scaleOptions" ng-model="scaleSelected" ng-change="changeScale(scaleSelected, duringSelected)"></select>
+        </div>
+        <br>
         <div class="col-sm-12">
             <div>
                 <h4 class="col-xs-10 col-sm-8">Board {{series}}</h4>

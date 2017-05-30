@@ -17,8 +17,11 @@ function CronCtrl($scope, $route, $routeParams, $uibModal, $injector, $cookies, 
     $scope.action = $route.current.$$route.action;
     $scope.username = $cookies.get('metricUsername');
     $scope.kindOptions = ['COUNT', 'AVERAGE'];
-    $scope.fieldOptions = ['created', 'resolutiondate'];
     $scope.selectedField;
+
+    metricService.getAllCronFields().then(function (result) {
+        $scope.fieldOptions = result;
+    });
 
     function initCron() {
         switch ($scope.action) {
@@ -27,7 +30,8 @@ function CronCtrl($scope, $route, $routeParams, $uibModal, $injector, $cookies, 
                     key: '',
                     kind: 'COUNT', // default
                     fields: [],
-                    visibility: false,
+                    visibility: true,
+                    enable: true,
                     username: $scope.username,
                     description: '',
                     cron: '',
