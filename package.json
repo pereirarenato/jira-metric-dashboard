@@ -1,5 +1,5 @@
 {
-  "name": "angular-seed",
+  "name": "jira-metric-dashboard",
   "private": true,
   "version": "0.0.0",
   "description": "A starter project for AngularJS",
@@ -20,6 +20,7 @@
     "postinstall": "bower install",
     "prestart": "npm install",
     "start": "http-server -a 0.0.0.0 -p 8080 -c-1 ./app",
+    "stop": "taskkill /f /im node.exe",
     "pretest": "npm install",
     "test": "karma start karma.conf.js",
     "test-single-run": "karma start karma.conf.js --single-run",

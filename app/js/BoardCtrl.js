@@ -2,9 +2,9 @@
 angular.module('critical.controllers.boardCtrl', ['ngRoute', 'PubSub', 'ngAnimate'])
     .controller('BoardCtrl', BoardCtrl);
 
-BoardCtrl.$inject = ['$scope', '$routeParams', '$location', '$injector', '$uibModal'];
+BoardCtrl.$inject = ['$scope', '$routeParams', '$location', '$injector', '$uibModal', '$document'];
 
-function BoardCtrl($scope, $routeParams, $location, $injector, $uibModal) {
+function BoardCtrl($scope, $routeParams, $location, $injector, $uibModal, $document) {
     var metricService = $injector.get('metricService');
 
     $scope.cron = {
@@ -103,6 +103,25 @@ function BoardCtrl($scope, $routeParams, $location, $injector, $uibModal) {
                 }
             }
         });
+    };
+
+    $scope.downloadCron = function () {
+        var dataString;
+        var samplesY = $scope.data.slice();
+        var samplesX = $scope.labels.slice();
+        var data = [samplesY, samplesX];
+        var csvContent = "data:text/csv;charset=utf-8,";
+        for (var i = 0, total = data.length; i < total; i++) {
+            dataString = data[i].join(",");
+            csvContent += i < data.length ? dataString+ "\n" : dataString;
+        }
+        var encodedUri = encodeURI(csvContent);
+        var link = angular.element('<a>')[0];
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", $scope.cron.key + '.csv');
+        $document[0].body.appendChild(link); // Required for FF
+
+        link.click();
     };
 
     $scope.datasetOverride = [{yAxisID: 'y-axis-1'}];
