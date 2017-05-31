@@ -2,3 +2,7 @@
     background-color: #cb2f23;
     text-decoration: none;
 }
+.crit-pagination-active {
+    background-color: #cb2f23 !important;
+    color: white !important;
+}

@@ -86,23 +86,24 @@ function MetricService($http, $q) {
      * Get all user Crons
      * @param userName
      */
-    function getAllUserCrons(session) {
+    function getAllUserCrons(session, page, searchQuery) {
         var deferred = $q.defer();
 
-        var urlGetAllUserCrons = metricSystemHost + '/all-crons';
+        var urlGetAllUserCrons = metricSystemHost + '/all-crons' + ((!searchQuery || 0 === searchQuery.length) ? '' : ('?search='+ searchQuery));
         var req;
         req = {
             method: 'GET',
             url: urlGetAllUserCrons,
             headers: {
                 'Content-Type': 'application/json',
-                'session': session
+                'session': session,
+                'page': page
             }
         };
 
         $http(req).then(
             function (response) {
-                deferred.resolve(response.data.crons);
+                deferred.resolve(response.data);
             },
             function (response) {
                 deferred.reject(response.data.msg);

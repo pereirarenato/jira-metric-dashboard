@@ -4,9 +4,9 @@
             <h4 ng-if="username">{{username}}'s Crons</h4>
             <h4 ng-if="!username">Crons</h4>
             <div class="input-group">
-                <input type="text" class="form-control" placeholder="Search Cron...">
+                <input type="text" class="form-control" placeholder="Search Cron..." ng-model="searchQuery">
                 <span class="input-group-btn">
-                  <button class="btn btn-default" type="button">
+                  <button class="btn btn-default" type="button" ng-click="searchCrons(searchQuery)" ng-keypress="{'enter': 'searchCrons(searchQuery)'}">
                     <span class="glyphicon glyphicon-search"></span>
                   </button>
                   <button ng-click="createCron()" class="btn btn-default" type="button">
@@ -20,6 +20,11 @@
                 <li ng-repeat="cronInstance in userCronList track by $index">
                     <a ng-href={{getCronUrl(cronInstance.cron)}}>{{cronInstance.cron.description}}</a>
                 </li>
+            </ul>
+            <ul class="nav nav-pills nav-stacked pagination" ng-if="pages.length > 1">
+                <li class="page-item"><a ng-click="getPreviousPage()" class="page-link" href="#">&lt;</a></li>
+                <li ng-repeat="page in pages track by $index" class="page-item"><a ng-class="{'crit-pagination-active': currentPage === $index}" class="page-link" ng-click="getCronsFromPage(page)">{{page}}</a></li>
+                <li class="page-item"><a ng-click="getNextPage()" class="page-link" href="#">&gt;</a></li>
             </ul>
         </div>
     </div>
