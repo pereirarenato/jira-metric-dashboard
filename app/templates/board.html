@@ -9,7 +9,7 @@
         <br>
         <div class="col-sm-12">
             <div>
-                <h4 class="col-xs-8 col-sm-8">Board {{series}}</h4>
+                <h4 nf-if="series" title="[{{cron.cron}}]" class="col-xs-8 col-sm-8">Board {{series}}</h4>
                 <button class="btn btn-default crit-board-button" type="button"
                         ng-click="deleteCron()">
                     <span class="glyphicon glyphicon-trash"></span>
@@ -24,7 +24,7 @@
                 </button>
             </div>
             <canvas id="line" class="chart chart-line" chart-data="data"
-                    chart-labels="labels" chart-series="series" chart-options="options"
+                    chart-labels="labels" chart-series="series" chart-options="options" chart-colors="colors"
                     chart-dataset-override="datasetOverride" chart-click="onClick">
             </canvas>
         </div>

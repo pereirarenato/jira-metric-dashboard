@@ -17,6 +17,8 @@ function BoardCtrl($scope, $routeParams, $location, $injector, $uibModal, $docum
     $scope.scaleSelected = 'SECCONDS';
     $scope.duringSelected = 'WEEK';
 
+    $scope.colors = ['#cc3300', '#0099ff'];
+
     metricService.getCron($scope.cron.key).then(function (aCron) {
         $scope.cron = aCron;
         $scope.changeScale('SECCONDS', 'WEEK');
@@ -47,7 +49,8 @@ function BoardCtrl($scope, $routeParams, $location, $injector, $uibModal, $docum
         $scope.duringSelected = duringSelected;
 
         $scope.labels = [];
-        $scope.data = [[]];
+        $scope.dataSize = [];
+        $scope.dataAverage = [];
         $scope.series = $scope.cron.description;
 
         // Filter by duringSelected
@@ -79,38 +82,89 @@ function BoardCtrl($scope, $routeParams, $location, $injector, $uibModal, $docum
         $scope.records.forEach(function (c) {
             $scope.labels.push(new Date(c.createdAt).toLocaleString());
             if ($scope.cron.kind === 'COUNT') {
-                $scope.data[0].push(c.size);
+                $scope.dataSize.push(c.size);
             } else {
-                switch ($scope.scaleSelected) {
-                    case 'MONTHS':
-                        $scope.data[0].push((c.size / 2592000));
-                        break;
-                    case 'WEEKS':
-                        $scope.data[0].push((c.size / 604800));
-                        break;
-                    case 'DAYS':
-                        $scope.data[0].push((c.size / 86400));
-                        break;
-                    case 'HOURS':
-                        $scope.data[0].push((c.size / 3600));
-                        break;
-                    case 'SECCONDS':
-                        $scope.data[0].push(c.size);
-                        break;
-                    default:
-                        $scope.data[0].push(c.size);
-                        break;
+                $scope.dataSize.push(c.size);
+                if (!c.average) {
+                    $scope.dataAverage.push(c.average);
+                } else {
+                    switch ($scope.scaleSelected) {
+                        case 'MONTHS':
+                            $scope.dataAverage.push((c.average / 2592000).toFixed(2));
+                            break;
+                        case 'WEEKS':
+                            $scope.dataAverage.push((c.average / 604800).toFixed(2));
+                            break;
+                        case 'DAYS':
+                            $scope.dataAverage.push((c.average / 86400).toFixed(2));
+                            break;
+                        case 'HOURS':
+                            $scope.dataAverage.push((c.average / 3600).toFixed(2));
+                            break;
+                        case 'SECCONDS':
+                            $scope.dataAverage.push(c.average.toFixed(2));
+                            break;
+                        default:
+                            $scope.dataAverage.push(c.average.toFixed(2));
+                            break;
+                    }
                 }
             }
         });
+
+        if($scope.cron.kind === 'COUNT') {
+            $scope.data = [$scope.dataSize];
+            $scope.datasetOverride = [{yAxisID: 'y-axis-1'}];
+            $scope.options = {
+                scales: {
+                    yAxes: [
+                        {
+                            id: 'y-axis-1',
+                            type: 'linear',
+                            display: true,
+                            position: 'left'
+                        }
+                    ]
+                }
+            };
+        } else {
+            $scope.data = [$scope.dataSize, $scope.dataAverage];
+            $scope.datasetOverride = [{yAxisID: 'y-axis-1'}, {yAxisID: 'y-axis-2'}];
+            $scope.options = {
+                scales: {
+                    yAxes: [
+                        {
+                            id: 'y-axis-1',
+                            label: 'Number of Tickets',
+                            type: 'linear',
+                            display: true,
+                            position: 'left'
+                        },
+                        {
+                            id: 'y-axis-2',
+                            label: 'Average',
+                            type: 'linear',
+                            display: true,
+                            position: 'right'
+                        }
+                    ]
+                }
+            };
+        }
     };
 
     $scope.downloadCron = function () {
         var dataString;
-        var samplesY = $scope.data.slice();
-        var samplesX = $scope.labels.slice();
-        var data = [samplesY, samplesX];
-        var csvContent = "data:text/csv;charset=utf-8,";
+        var samplesYSize = $scope.data[0].slice();
+        var samplesYAverage = $scope.data[1].slice();
+        var samplesTimestamp = $scope.labels.slice();
+        var data;
+        if($scope.cron.kind === 'COUNT') {
+            data = [samplesYSize, samplesTimestamp];
+        } else {
+            data = [samplesYSize, samplesYAverage, samplesTimestamp];
+        }
+        var csvContent = "dataSize:text/csv;charset=utf-8,";
         for (var i = 0, total = data.length; i < total; i++) {
             dataString = data[i].join(",");
             csvContent += i < data.length ? dataString+ "\n" : dataString;
@@ -122,19 +176,5 @@ function BoardCtrl($scope, $routeParams, $location, $injector, $uibModal, $docum
         $document[0].body.appendChild(link); // Required for FF
 
         link.click();
-    };
-
-    $scope.datasetOverride = [{yAxisID: 'y-axis-1'}];
-    $scope.options = {
-        scales: {
-            yAxes: [
-                {
-                    id: 'y-axis-1',
-                    type: 'linear',
-                    display: true,
-                    position: 'left'
-                }
-            ]
-        }
     };
 };
