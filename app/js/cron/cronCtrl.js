@@ -72,7 +72,7 @@ function CronCtrl($scope, $route, $routeParams, $uibModal, $injector, $cookies, 
             case 'CREATE':
                 metricService.createCron($scope.cron).then(function (result) {
                     showMessagePopup('Cron ' + $scope.cron.key + ' created!!!', 'success');
-                    PubSub.publish('crete-cron-success');
+                    PubSub.publish('create-cron-success');
                 }, function (reject) {
                     showMessagePopup(reject, 'danger');
                 });

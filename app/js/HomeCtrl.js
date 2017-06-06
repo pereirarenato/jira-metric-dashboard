@@ -23,56 +23,65 @@ function HomeCtrl($scope, $location, $injector, PubSub, $cookies) {
 
     $scope.getCronsFromPage = function (page) {
         $scope.currentPage = page;
-        loadAllCrons($scope.session, $scope.currentPage, $scope.searchQuery);
+        loadAllCrons();
     };
 
     $scope.getNextPage = function () {
         if($scope.currentPage < $scope.pages.length) {
             $scope.currentPage++;
-            loadAllCrons($scope.session, $scope.currentPage, $scope.searchQuery);
+            loadAllCrons();
         }
     };
 
     $scope.getPreviousPage = function () {
         if($scope.currentPage > 0) {
             $scope.currentPage--;
-            loadAllCrons($scope.session, $scope.currentPage, $scope.searchQuery);
+            loadAllCrons();
         }
     };
 
     $scope.searchCrons = function (searchQuery) {
         $scope.searchQuery = searchQuery.trim();
-        $scope.currentPage = 0;
+        initPagination();
         loadAllCrons($scope.session, $scope.currentPage, searchQuery.trim());
     };
 
     PubSub.subscribe('login-success', function (data) {
         $scope.username = data.username;
         $scope.session = data.session;
-        loadAllCrons($scope.session);
+        $scope.searchQuery = '';
+        initPagination();
+        loadAllCrons($scope.session, $scope.currentPage, $scope.searchQuery.trim());
     });
 
     PubSub.subscribe('logout-success', function () {
+        $scope.searchQuery = '';
+        initPagination();
         loadAllCrons();
     });
 
     PubSub.subscribe('create-cron-success', function () {
-        loadAllCrons($scope.session);
+        loadAllCrons();
     });
 
     PubSub.subscribe('edit-cron-success', function () {
-        loadAllCrons($scope.session);
+        loadAllCrons();
     });
 
     PubSub.subscribe('delete-cron-success', function () {
-        loadAllCrons($scope.session);
+        loadAllCrons();
     });
 
-    var loadAllCrons = function(session, page, searchQuery) {
-        metricService.getAllUserCrons(session, page, searchQuery).then(function (data) {
+    var loadAllCrons = function() {
+        metricService.getAllUserCrons($scope.session, $scope.currentPage, $scope.searchQuery).then(function (data) {
             $scope.userCronList = data.crons;
             $scope.pages = Array.apply(null, {length: Math.ceil(data.total / 10)}).map(Number.call, Number)
         });
+    };
+
+    var initPagination = function () {
+        $scope.currentPage = 0;
+        $scope.pages = [];
     };
 
     loadAllCrons($scope.session, $scope.currentPage);

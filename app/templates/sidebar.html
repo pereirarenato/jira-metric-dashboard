@@ -4,9 +4,9 @@
             <h4 ng-if="username">{{username}}'s Crons</h4>
             <h4 ng-if="!username">Crons</h4>
             <div class="input-group">
-                <input type="text" class="form-control" placeholder="Search Cron..." ng-model="searchQuery">
+                <input type="text" class="form-control" placeholder="Search Cron..." ng-model="searchQuery" ng-keydown="$event.keyCode === 13 && searchCrons(searchQuery)">
                 <span class="input-group-btn">
-                  <button class="btn btn-default" type="button" ng-click="searchCrons(searchQuery)" ng-keypress="{'enter': 'searchCrons(searchQuery)'}">
+                  <button class="btn btn-default" type="button" ng-click="searchCrons(searchQuery)">
                     <span class="glyphicon glyphicon-search"></span>
                   </button>
                   <button ng-click="createCron()" class="btn btn-default" type="button">
