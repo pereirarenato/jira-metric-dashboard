@@ -2,9 +2,9 @@
 angular.module('critical.controllers.boardCtrl', ['ngRoute', 'PubSub', 'ngAnimate'])
     .controller('BoardCtrl', BoardCtrl);
 
-BoardCtrl.$inject = ['$scope', '$routeParams', '$location', '$injector', '$uibModal', '$document'];
+BoardCtrl.$inject = ['$scope', '$routeParams', '$location', '$injector', '$uibModal'];
 
-function BoardCtrl($scope, $routeParams, $location, $injector, $uibModal, $document) {
+function BoardCtrl($scope, $routeParams, $location, $injector, $uibModal) {
     var metricService = $injector.get('metricService');
 
     $scope.cron = {
@@ -28,8 +28,8 @@ function BoardCtrl($scope, $routeParams, $location, $injector, $uibModal, $docum
 
     $scope.scaleSelected = 'SECCONDS';
     $scope.duringSelected = 'WEEK';
-
-    $scope.colors = ['#cc3300', '#0099ff'];
+    $scope.graphicNumTickets = true;
+    $scope.graphicAverage = true;
 
     metricService.getCron($scope.cron.key).then(function (aCron) {
         $scope.cron = aCron;
@@ -57,13 +57,22 @@ function BoardCtrl($scope, $routeParams, $location, $injector, $uibModal, $docum
     };
 
     $scope.changeScale = function (scaleSelected, duringSelected) {
-        $scope.scaleSelected = scaleSelected;
-        $scope.duringSelected = duringSelected;
+        if (scaleSelected) {
+            $scope.scaleSelected = scaleSelected;
+        }
+        if (duringSelected) {
+            $scope.duringSelected = duringSelected;
+        }
 
+        $scope.colors = [];
+        $scope.records = [];
         $scope.labels = [];
         $scope.dataSize = [];
         $scope.dataAverage = [];
-        $scope.series = $scope.cron.description;
+        $scope.data = [];
+        $scope.datasetOverride = [];
+        $scope.series = [];
+        $scope.options = [];
 
         // Filter by duringSelected
         $scope.records = $scope.cron.records.filter(function(r) {
@@ -124,44 +133,62 @@ function BoardCtrl($scope, $routeParams, $location, $injector, $uibModal, $docum
             }
         });
 
-        if($scope.cron.kind === 'COUNT') {
-            $scope.data = [$scope.dataSize];
+        if($scope.graphicNumTickets ^ $scope.graphicAverage) {
+            $scope.colors = $scope.graphicNumTickets ? ['#cc3300'] : ['#0099ff'];
+            $scope.data = $scope.graphicNumTickets ? [$scope.dataSize] : [$scope.dataAverage];
             $scope.datasetOverride = [{yAxisID: 'y-axis-1'}];
+            $scope.series = ['Number of Tickets'];
             $scope.options = {
                 scales: {
                     yAxes: [
                         {
                             id: 'y-axis-1',
                             type: 'linear',
-                            display: true,
+                            showLine: true,
                             position: 'left'
                         }
                     ]
                 }
             };
-        } else {
+        }
+        if($scope.graphicNumTickets && $scope.graphicAverage) {
+            $scope.colors = ['#cc3300', '#0099ff'];
             $scope.data = [$scope.dataSize, $scope.dataAverage];
             $scope.datasetOverride = [{yAxisID: 'y-axis-1'}, {yAxisID: 'y-axis-2'}];
+            $scope.series = ['Number of Tickets', 'Average'];
             $scope.options = {
                 scales: {
                     yAxes: [
                         {
                             id: 'y-axis-1',
-                            label: 'Number of Tickets',
                             type: 'linear',
-                            display: true,
+                            showLine: true,
                             position: 'left'
                         },
                         {
                             id: 'y-axis-2',
-                            label: 'Average',
                             type: 'linear',
-                            display: true,
+                            showLine: true,
                             position: 'right'
                         }
                     ]
                 }
             };
+        }
+    };
+
+    $scope.changeKind = function (kind) {
+        if (kind === 'COUNT') {
+            $scope.graphicNumTickets = !$scope.graphicNumTickets;
+        }
+        if (kind === 'AVERAGE') {
+            $scope.graphicAverage = !$scope.graphicAverage;
+        }
+
+        if (!$scope.graphicNumTickets && !$scope.graphicAverage) {
+            $location.path('#!/home');
+        } else {
+            $scope.changeScale();
         }
     };
 

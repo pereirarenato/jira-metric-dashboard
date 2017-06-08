@@ -8,7 +8,7 @@
     margin-right: 20px;
 }
 
-.crit-board-buttons > label {
+.crit-board-label {
     min-width: 70px;
     margin-left: 10px;
 }
@@ -21,4 +21,8 @@
 .crit-board-select-during{
     background-color: #cc3300;
     color: white;
+}
+
+.crit-board-checkboxs {
+    padding: 15px;
 }
