@@ -137,7 +137,7 @@ function BoardCtrl($scope, $routeParams, $location, $injector, $uibModal) {
             $scope.colors = $scope.graphicNumTickets ? ['#cc3300'] : ['#0099ff'];
             $scope.data = $scope.graphicNumTickets ? [$scope.dataSize] : [$scope.dataAverage];
             $scope.datasetOverride = [{yAxisID: 'y-axis-1'}];
-            $scope.series = ['Number of Tickets'];
+            $scope.series = $scope.graphicNumTickets ? ['Number of Tickets'] :['Average'];
             $scope.options = {
                 scales: {
                     yAxes: [
