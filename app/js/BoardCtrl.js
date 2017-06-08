@@ -11,8 +11,20 @@ function BoardCtrl($scope, $routeParams, $location, $injector, $uibModal, $docum
         key: $routeParams.cronKey
     };
 
-    $scope.scaleOptions = ['MONTHS', 'WEEKS','DAYS', 'HOURS', 'SECCONDS'];
-    $scope.duringOptions = ['YEAR','MONTH', 'WEEK', 'DAY', 'HOUR'];
+    $scope.scaleOptions = {
+        'MONTHS': 'Months',
+        'WEEKS': 'Weeks',
+        'DAYS': 'Days',
+        'HOURS': 'Hours',
+        'SECCONDS': 'Secconds'
+    };
+    $scope.duringOptions = {
+        'YEAR': 'Year',
+        'MONTH': 'Month',
+        'WEEK': 'Week',
+        'DAY': 'Day',
+        'HOUR': 'Hour'
+    };
 
     $scope.scaleSelected = 'SECCONDS';
     $scope.duringSelected = 'WEEK';
@@ -164,17 +176,55 @@ function BoardCtrl($scope, $routeParams, $location, $injector, $uibModal, $docum
         } else {
             data = [samplesYSize, samplesYAverage, samplesTimestamp];
         }
-        var csvContent = "dataSize:text/csv;charset=utf-8,";
-        for (var i = 0, total = data.length; i < total; i++) {
-            dataString = data[i].join(",");
-            csvContent += i < data.length ? dataString+ "\n" : dataString;
-        }
-        var encodedUri = encodeURI(csvContent);
-        var link = angular.element('<a>')[0];
-        link.setAttribute("href", encodedUri);
-        link.setAttribute("download", $scope.cron.key + '.csv');
-        $document[0].body.appendChild(link); // Required for FF
+        JSONToCSVConvertor(data, $scope.cron.key);
+    };
 
+    function JSONToCSVConvertor(JSONData, fileName) {
+        //If JSONData is not an object then JSON.parse will parse the JSON string in an Object
+        var arrData = typeof JSONData != 'object' ? JSON.parse(JSONData) : JSONData;
+
+        var CSV = '';
+        //Set Report title in first row or line
+
+        //1st loop is to extract each row
+        for (var i = 0; i < arrData.length; i++) {
+            var row = "";
+
+            //2nd loop will extract each column and convert it in string comma-seprated
+            for (var index in arrData[i]) {
+                row += '"' + arrData[i][index] + '",';
+            }
+
+            row.slice(0, row.length - 1);
+
+            //add a line break after each row
+            CSV += row + '\r\n';
+        }
+
+        if (CSV == '') {
+            alert("Invalid data");
+            return;
+        }
+
+        //Initialize file format you want csv or xls
+        var uri = 'data:text/csv;charset=utf-8,' + escape(CSV);
+
+        // Now the little tricky part.
+        // you can use either>> window.open(uri);
+        // but this will not work in some browsers
+        // or you will not get the correct file extension
+
+        //this trick will generate a temp <a /> tag
+        var link = document.createElement("a");
+        link.href = uri;
+
+        //set the visibility hidden so it will not effect on your web-layout
+        link.style = "visibility:hidden";
+        link.download = fileName + ".csv";
+
+        //this part will append the anchor tag and remove it after automatic click
+        document.body.appendChild(link);
         link.click();
+        document.body.removeChild(link);
     };
 };

@@ -12,3 +12,13 @@
     min-width: 70px;
     margin-left: 10px;
 }
+
+.crit-board-select-scale{
+    background-color: #0099ff;
+    color: white;
+}
+
+.crit-board-select-during{
+    background-color: #cc3300;
+    color: white;
+}

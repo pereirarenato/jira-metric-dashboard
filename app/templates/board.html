@@ -2,9 +2,13 @@
     <div class="row content">
         <div class="crit-board-buttons" >
             <label>During last</label>
-            <select class="form-control" ng-options="during for during in duringOptions" ng-model="duringSelected" ng-change="changeScale(scaleSelected, duringSelected)"></select>
+            <select class="form-control" ng-class="{'crit-board-select-during': cron.kind === 'AVERAGE'}" ng-model="duringSelected" ng-change="changeScale(scaleSelected, duringSelected)">
+                <option ng-repeat="(key, value) in duringOptions" value="{{key}}">{{value}}</option>
+            </select>
             <label ng-if="cron.kind === 'AVERAGE'">Time scale</label>
-            <select ng-if="cron.kind === 'AVERAGE'" class="form-control" ng-options="scale for scale in scaleOptions" ng-model="scaleSelected" ng-change="changeScale(scaleSelected, duringSelected)"></select>
+            <select ng-if="cron.kind === 'AVERAGE'" class="form-control" ng-class="{'crit-board-select-scale': cron.kind === 'AVERAGE'}" ng-model="scaleSelected" ng-change="changeScale(scaleSelected, duringSelected)">
+                <option ng-repeat="(key, value) in scaleOptions" value="{{key}}">{{value}}</option>
+            </select>
         </div>
         <br>
         <div class="col-sm-12">

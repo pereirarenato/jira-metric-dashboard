@@ -27,7 +27,7 @@ function HomeCtrl($scope, $location, $injector, PubSub, $cookies) {
     };
 
     $scope.getNextPage = function () {
-        if($scope.currentPage < $scope.pages.length) {
+        if($scope.currentPage < $scope.pages.length - 1) {
             $scope.currentPage++;
             loadAllCrons();
         }

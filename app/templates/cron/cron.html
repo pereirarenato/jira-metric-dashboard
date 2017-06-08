@@ -13,7 +13,9 @@
     </div>
     <div class="form-group">
         <label for="inputCronKind">Cron Kind</label>
-        <select class="form-control" id="inputCronKind" ng-options="kind for kind in kindOptions" ng-model="cron.kind"></select>
+        <select class="form-control" id="inputCronKind" ng-model="cron.kind">
+            <option ng-repeat="(key, value) in kindTypes" value="{{key}}">{{value}}</option>
+        </select>
         <small id="cronKind" class="form-text text-muted">Cron kind</small>
     </div>
     <div class="form-group" ng-if="cron.kind === 'AVERAGE'">

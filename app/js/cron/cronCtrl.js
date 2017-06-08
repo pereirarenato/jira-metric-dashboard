@@ -16,7 +16,10 @@ function CronCtrl($scope, $route, $routeParams, $uibModal, $injector, $cookies, 
 
     $scope.action = $route.current.$$route.action;
     $scope.username = $cookies.get('metricUsername');
-    $scope.kindOptions = ['COUNT', 'AVERAGE'];
+    $scope.kindTypes = {
+        'COUNT': 'Count',
+        'AVERAGE': 'Average'
+    };
     $scope.selectedField;
 
     metricService.getAllCronFields().then(function (result) {
