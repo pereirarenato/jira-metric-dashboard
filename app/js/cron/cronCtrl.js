@@ -57,7 +57,9 @@ function CronCtrl($scope, $route, $routeParams, $uibModal, $injector, $cookies, 
     initCron();
 
     $scope.addField = function(field) {
-        $scope.cron.fields.push(field)
+        if ($scope.cron.fields.length < 2) {
+            $scope.cron.fields.push(field.key);
+        }
     };
 
     $scope.clearFields = function() {

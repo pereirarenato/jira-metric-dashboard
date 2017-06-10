@@ -21,7 +21,7 @@
     <div class="form-group" ng-if="cron.kind === 'AVERAGE'">
         <label for="inputCronFields">Fields</label>
         <div class="crit-cron-fields-align">
-            <select class="form-control" id="inputCronFields" ng-options="field for field in fieldOptions" ng-change="addField(selectedField)" ng-model="selectedField"></select>
+            <select class="form-control" id="inputCronFields" ng-model="selectedField" ng-options="option.value for option in fieldOptions track by option.key" ng-change="addField(selectedField)"></select>
             <span class="input-group-btn crit-cron-del">
                   <button class="btn btn-default" type="button" ng-click="clearFields()">
                     <span class="glyphicon glyphicon-remove"></span>
