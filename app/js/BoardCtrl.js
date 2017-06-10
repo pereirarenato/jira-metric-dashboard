@@ -26,14 +26,14 @@ function BoardCtrl($scope, $routeParams, $location, $injector, $uibModal) {
         'HOUR': 'Hour'
     };
 
-    $scope.scaleSelected = 'SECCONDS';
+    $scope.scaleSelected = 'DAYS';
     $scope.duringSelected = 'WEEK';
     $scope.graphicNumTickets = true;
     $scope.graphicAverage = true;
 
     metricService.getCron($scope.cron.key).then(function (aCron) {
         $scope.cron = aCron;
-        $scope.changeScale('SECCONDS', 'WEEK');
+        $scope.changeScale('DAYS', 'WEEK');
     });
 
     $scope.onClick = function (points, evt) {
